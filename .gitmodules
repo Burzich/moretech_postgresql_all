@@ -1,0 +1,9 @@
+[submodule "PgAdvisor"]
+	path = PgAdvisor
+	url = git@github.com:Burzich/PgAdvisor.git
+[submodule "pgAdvizor_front"]
+	path = pgAdvizor_front
+	url = git@github.com:Burzich/pgAdvizor_front.git
+[submodule "PgAnsible"]
+	path = PgAnsible
+	url = git@github.com:Burzich/PgAnsible.git
