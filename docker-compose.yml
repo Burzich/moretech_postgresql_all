@@ -33,7 +33,6 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      # reminder: manual create readonly user with only read access for u DB
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
