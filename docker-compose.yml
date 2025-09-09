@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: ./PgAdvisor
+      dockerfile: Dockerfile
+    container_name: pgadvisor_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=:8080
+      - DATABASE_URL=postgres://readonly_user:secure_password@db:5432/postgres?sslmode=disable  # for readonly_user
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_BASE_URL=${LLM_BASE_URL}
+      - LLM_MODEL=${LLM_MODEL}
+
+  frontend:
+    build:
+      context: ./pgAdvizor_front
+      dockerfile: Dockerfile
+    container_name: pgadvizor_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - API_BASE_URL=http://localhost:8080
+      - PORT=80
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      # reminder: manual create readonly user with only read access for u DB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
